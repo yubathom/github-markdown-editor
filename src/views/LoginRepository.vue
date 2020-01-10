@@ -42,7 +42,7 @@
 //import { mapState, mapGetters  } from 'vuex';
 
 import AppButton from "@/components/AppButton";
-// import firebase from "@/services/firebase";
+import firebase from "@/services/firebase";
 
 export default {
   name: "LoginRepository",
@@ -74,42 +74,40 @@ export default {
   methods: {
     async requestGithubAccess() {
       try {
-        await this.$store.dispatch("RepositoryStore/getRepositories");
+        var provider = new firebase.auth.GithubAuthProvider();
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then(async result => {
+            var token = result.credential.accessToken;
+            var user = result.user;
 
-        this.$router.push("/home");
+            this.$store.commit("SET_TOKEN", token);
+            localStorage.setItem("token", token);
 
-        // var provider = new firebase.auth.GithubAuthProvider();
-        // firebase
-        //   .auth()
-        //   .signInWithPopup(provider)
-        //   .then(result => {
-        //     var token = result.credential.accessToken;
-        //     var user = result.user;
+            this.$store.commit("SET_USER", user);
+            localStorage.setItem("user", JSON.stringify(user));
 
-        //     this.$store.commit("SET_TOKEN", token);
-        //     localStorage.setItem("token", token);
+            await this.$store.dispatch("RepositoryStore/getRepositories");
 
-        //     this.$store.commit("SET_USER", user);
-        //     localStorage.setItem("user", JSON.stringify(user));
+            this.$router.push("/home");
+          })
+          .catch(error => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            var email = error.email;
+            var credential = error.credential;
 
-        //     // this.$router.push("/home");
-        //   })
-        //   .catch(error => {
-        //     var errorCode = error.code;
-        //     var errorMessage = error.message;
-        //     var email = error.email;
-        //     var credential = error.credential;
+            console.log(error);
+            console.log(errorCode);
+            console.log(errorMessage);
+            console.log(email);
+            console.log(credential);
 
-        //     console.log(error);
-        //     console.log(errorCode);
-        //     console.log(errorMessage);
-        //     console.log(email);
-        //     console.log(credential);
-
-        //     alert(
-        //       "Aconteceu um problema, veja os erros no console do browser."
-        //     );
-        //   });
+            alert(
+              "Aconteceu um problema, veja os erros no console do browser."
+            );
+          });
       } catch (err) {
         // console.log(err);
         console.log(err);
