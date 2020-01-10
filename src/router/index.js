@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "about"
+    redirect: "home"
   },
   {
     path: "/login",
@@ -21,13 +21,13 @@ const routes = [
     }
   },
   {
-    path: "/about",
-    name: "about",
+    path: "/home",
+    name: "Home",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
     meta: {
       requiresAuth: true
     }
@@ -39,7 +39,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const isAuth = Store.state.isAuth;
+  const isAuth = Store.state.access_token;
 
   if (
     to.matched.some(record => record.meta.requiresAuth) &&

@@ -4,4 +4,21 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<script>
+export default {
+  name: "MarkdownEditor"
+};
+</script>
+
+<style lang="scss">
+@import url("https://rsms.me/inter/inter.css");
+html {
+  font-family: "Inter", sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: "Inter var", sans-serif;
+  }
+}
+</style>

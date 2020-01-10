@@ -39,7 +39,7 @@
 import AppButton from "@/components/AppButton";
 
 export default {
-  name: "",
+  name: "LoginRepository",
   components: {
     AppButton
   },
@@ -47,8 +47,8 @@ export default {
   props: {},
   data: function() {
     return {
-      repository: "",
-      access_key: "",
+      repository: "https://github.com/educkf/simple-vue-sfc",
+      access_key: "-",
       loading: false
     };
   },
@@ -61,13 +61,38 @@ export default {
     // })
   },
   watch: {},
-  async created() {},
+  async created() {
+    this.$store.commit("RepositoryStore/CLEAR");
+  },
   async mounted() {},
   methods: {
     async handleForm() {
       // previne do form ser processado de novo caso o botão seja pressionado duas vezes
       if (!this.loading) {
         this.loading = true;
+        const repo = this.repository.replace("https://github.com/", "");
+
+        try {
+          const response = await this.$store.dispatch(
+            "RepositoryStore/getRepository",
+            repo
+          );
+          if (response) {
+            this.$store.commit("SET_ACCESS_TOKEN", this.access_key);
+            this.$router.push("/home");
+          } else {
+            alert(
+              "Ops, aconteceu um erro, verifique se seu repositório e chave de acesso são válidos."
+            );
+          }
+        } catch (err) {
+          console.log(err);
+          alert(
+            "Ops, aconteceu um erro, verifique se seu repositório e chave de acesso são válidos."
+          );
+        } finally {
+          this.loading = false;
+        }
       }
     }
   }
