@@ -86,7 +86,6 @@ export default {
             );
           }
         } catch (err) {
-          console.log(err);
           alert(
             "Ops, aconteceu um erro, verifique se seu repositório e chave de acesso são válidos."
           );

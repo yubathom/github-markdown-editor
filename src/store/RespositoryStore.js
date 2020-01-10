@@ -70,7 +70,6 @@ const RepositoryStore = {
           return false;
         }
       } catch (err) {
-        console.log(err);
         return false;
       }
     },
@@ -95,7 +94,6 @@ const RepositoryStore = {
 
           commit("SET_PATH", newPath);
         } catch (err) {
-          console.log(err);
           return false;
         }
       }
@@ -112,7 +110,6 @@ const RepositoryStore = {
         });
         return decodedData;
       } catch (err) {
-        console.log(err);
         return false;
       }
     }

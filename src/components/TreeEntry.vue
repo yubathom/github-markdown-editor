@@ -49,11 +49,10 @@ export default {
       }
 
       if (this.entry.type == "blob") {
-        const response = await this.$store.dispatch(
+        await this.$store.dispatch(
           "RepositoryStore/getBlobContent",
           this.entry
         );
-        console.log(response);
       }
     }
   }
