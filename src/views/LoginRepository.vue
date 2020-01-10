@@ -1,13 +1,17 @@
 <template>
   <div class="flex items-center justify-center w-100 h-screen">
     <div class="bg-white rounded shadow-lg p-4 w-128">
-      <h1 class="text-3xl mt-2 mb-4">Repositório e acesso</h1>
-      <p>
-        Insira abaixo os dados do repositório público que deseja acessar, e
-        também uma chave de acesso que tenha acesso aos repositórios públicos.
-      </p>
+      <h1 class="text-2xl mt-2 mb-4">Acesso a conteúdo do Github</h1>
+      <p class="mb-5">Clique para realizar sua autentiação no github</p>
 
-      <form @submit.prevent="handleForm()" class="w-full mt-6">
+      <AppButton
+        :loading="loading"
+        @clicked="requestGithubAccess()"
+        type="button"
+        >Acessar com Github</AppButton
+      >
+
+      <!-- <form @submit.prevent="handleForm()" class="w-full mt-6">
         <div class="mb-4">
           <label class="label" for="repository">Respositório</label>
           <input
@@ -29,14 +33,16 @@
         </div>
 
         <AppButton :loading="loading" type="submit">Acessar</AppButton>
-      </form>
+      </form> -->
     </div>
   </div>
 </template>
 
 <script>
 //import { mapState, mapGetters  } from 'vuex';
+
 import AppButton from "@/components/AppButton";
+// import firebase from "@/services/firebase";
 
 export default {
   name: "LoginRepository",
@@ -66,6 +72,49 @@ export default {
   },
   async mounted() {},
   methods: {
+    async requestGithubAccess() {
+      try {
+        await this.$store.dispatch("RepositoryStore/getRepositories");
+
+        this.$router.push("/home");
+
+        // var provider = new firebase.auth.GithubAuthProvider();
+        // firebase
+        //   .auth()
+        //   .signInWithPopup(provider)
+        //   .then(result => {
+        //     var token = result.credential.accessToken;
+        //     var user = result.user;
+
+        //     this.$store.commit("SET_TOKEN", token);
+        //     localStorage.setItem("token", token);
+
+        //     this.$store.commit("SET_USER", user);
+        //     localStorage.setItem("user", JSON.stringify(user));
+
+        //     // this.$router.push("/home");
+        //   })
+        //   .catch(error => {
+        //     var errorCode = error.code;
+        //     var errorMessage = error.message;
+        //     var email = error.email;
+        //     var credential = error.credential;
+
+        //     console.log(error);
+        //     console.log(errorCode);
+        //     console.log(errorMessage);
+        //     console.log(email);
+        //     console.log(credential);
+
+        //     alert(
+        //       "Aconteceu um problema, veja os erros no console do browser."
+        //     );
+        //   });
+      } catch (err) {
+        // console.log(err);
+        console.log(err);
+      }
+    },
     async handleForm() {
       // previne do form ser processado de novo caso o botão seja pressionado duas vezes
       if (!this.loading) {

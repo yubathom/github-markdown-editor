@@ -6,7 +6,18 @@
 
 <script>
 export default {
-  name: "MarkdownEditor"
+  name: "MarkdownEditor",
+  created() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.$store.commit("SET_TOKEN", token);
+    }
+
+    const user = localStorage.getItem("user");
+    if (user) {
+      this.$store.commit("SET_USER", JSON.parse(user));
+    }
+  }
 };
 </script>
 

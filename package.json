@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.19.1",
     "core-js": "^3.4.4",
+    "firebase": "^7.6.2",
     "markdown-it": "^10.0.0",
     "npm": "^6.13.6",
     "object-scan": "^10.0.16",

@@ -3,6 +3,7 @@ import Axios from "axios";
 const RepositoryStore = {
   namespaced: true,
   state: {
+    repositories: [],
     repository: null,
     commits: null,
     active: null,
@@ -11,6 +12,9 @@ const RepositoryStore = {
     inspecting: null
   },
   mutations: {
+    SET_REPOSITORIES(state, payload) {
+      state.repositories = payload;
+    },
     SET_REPOSITORY(state, payload) {
       state.repository = payload;
     },
@@ -39,6 +43,16 @@ const RepositoryStore = {
     }
   },
   actions: {
+    async getRepositories({ commit, rootState }) {
+      const response = await Axios.get("https://api.github.com/user/repos", {
+        headers: {
+          Authorization: `token ${rootState.access_token}`
+        }
+      });
+      if (response && response.data) {
+        commit("SET_REPOSITORIES", response.data);
+      }
+    },
     async getRepository({ commit }, repo) {
       try {
         const response = await Axios.get(

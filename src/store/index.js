@@ -10,14 +10,19 @@ export default new Vuex.Store({
     RepositoryStore
   },
   state: {
-    access_token: null
+    access_token: null,
+    user: null
   },
   mutations: {
-    SET_ACCESS_TOKEN(state, payload) {
+    SET_TOKEN(state, payload) {
       state.access_token = payload;
+    },
+    SET_USER(state, payload) {
+      state.user = payload;
     },
     CLEAR(state) {
       state.access_token = null;
+      state.user = null;
     }
   },
   actions: {}
