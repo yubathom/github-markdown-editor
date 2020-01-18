@@ -23,8 +23,9 @@ export default {
 
 <style lang="scss">
 @import url("https://rsms.me/inter/inter.css");
+
 html {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
 }
 
 @supports (font-variation-settings: normal) {
